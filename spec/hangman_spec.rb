@@ -14,15 +14,25 @@ describe Cinch::Plugins::Game do
       subject.describe.should include 'new hangman'
     end
     describe 'guesses' do
-      it 'reduce after an incorrect guess' do
-        subject.guess("x")
-        subject.describe.should include '5 guesses'
-        subject.guess("lol")
-        subject.describe.should include '4 guesses'
+      describe 'correct' do 
+        it 'when containing a single character in the answer' do
+          subject.guess("h")
+          subject.describe.should include '6 guesses'
+        end
       end
-      it 'do not reduce after a correct guess' do
-        subject.guess("h")
-        subject.describe.should include '6 guesses'
+      describe 'incorrect' do
+        it 'when containing a single character not in the answer' do
+          subject.guess("x")
+          subject.describe.should include '5 guesses'
+        end
+        it 'when containing a word not in the answer' do
+          subject.guess("lol")
+          subject.describe.should include '5 guesses'
+        end
+        it 'when containing the correct answer in reverse' do
+          subject.guess("ho")
+          subject.describe.should include '5 guesses'
+        end
       end
     end
     describe 'hints' do
@@ -48,6 +58,11 @@ describe Cinch::Plugins::Game do
       it 'occurs when the answer is given with a mixture of approaches' do
         subject.guess("o")
         subject.guess("oh")
+        subject.describe.should include 'awesome!'
+      end
+      it 'occurs no matter what order guesses are given' do
+        subject.guess("h")
+        subject.guess("o")
         subject.describe.should include 'awesome!'
       end
       it 'should not be automatic for hassox' do

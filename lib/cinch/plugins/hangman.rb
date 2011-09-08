@@ -20,18 +20,18 @@ module Cinch::Plugins
     def initialize(answer, max_guesses = 6)
       @answer            = answer
       @max_guesses       = max_guesses
-      @correct_guesses   = []
+      @correct_chars     = Set.new
       @incorrect_guesses = []
     end
     def guess(guess)
       if @answer.include?(guess)
-        @correct_guesses << guess
+        @correct_chars.merge(guess.chars)
       else
 				@incorrect_guesses << guess
       end
     end
     def describe
-      if @correct_guesses.empty? && @incorrect_guesses.empty?
+      if @correct_chars.empty? && @incorrect_guesses.empty?
         "(#{hint}) a new hangman riddle has started."
       elsif won
         "(#{hint}) that hangman riddle was solved, awesome!"
@@ -42,7 +42,7 @@ module Cinch::Plugins
       end
     end
     def won
-      @correct_guesses.join.include?(@answer)
+      @correct_chars.superset?(Set.new(@answer.chars))
     end
     def lost
       guesses_left == 0
@@ -51,7 +51,7 @@ module Cinch::Plugins
       @max_guesses - @incorrect_guesses.size
     end
     def hint
-      @answer.chars.map { |char| @correct_guesses.join.include?(char) ? char : "_" }.join(" ")
+      @answer.chars.map { |char| @correct_chars.include?(char) ? char : "_" }.join(" ")
     end
 
   end
