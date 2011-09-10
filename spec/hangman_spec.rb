@@ -11,7 +11,7 @@ describe Cinch::Plugins::Game do
   end
   describe 'game' do
     it 'should have a start' do
-      subject.describe.should include 'new hangman'
+      subject.describe.should match /hangman.*started/
     end
     describe 'guesses' do
       describe 'correct' do 
@@ -38,37 +38,37 @@ describe Cinch::Plugins::Game do
     describe 'hints' do
       it 'show the number of letters in the answer' do
         subject.guess("x")
-        subject.describe.should include '_ _'
+        subject.describe.should include '__'
       end
       it 'show letters that have been guessed correctly' do
         subject.guess("h")
-        subject.describe.should include '_ h'
+        subject.describe.should include '_h'
       end
     end
     describe 'winning' do
       it 'occurs when the answer is guessed using individual characters' do
         subject.guess("o")
         subject.guess("h")
-        subject.describe.should include 'awesome!'
+        subject.describe.should include 'solved!'
       end
       it 'occurs when the answer is guessed in one go' do
         subject.guess("oh")
-        subject.describe.should include 'awesome!'
+        subject.describe.should include 'solved!'
       end
       it 'occurs when the answer is given with a mixture of approaches' do
         subject.guess("o")
         subject.guess("oh")
-        subject.describe.should include 'awesome!'
+        subject.describe.should include 'solved!'
       end
       it 'occurs no matter what order guesses are given' do
         subject.guess("h")
         subject.guess("o")
-        subject.describe.should include 'awesome!'
+        subject.describe.should include 'solved!'
       end
       it 'should not be automatic for hassox' do
         subject = Cinch::Plugins::Game.new("hassox")
         subject.guess("s")
-        subject.describe.should_not include 'awesome!'
+        subject.describe.should_not include 'solved!'
       end
     end
     describe 'losing' do
@@ -76,7 +76,7 @@ describe Cinch::Plugins::Game do
         6.times do
           subject.guess("z")
         end
-        subject.describe.should include 'sucks!'
+        subject.describe.should include 'too difficult!'
       end
     end
   end

@@ -1,7 +1,7 @@
 module Cinch::Plugins
   class Hangman
     include Cinch::Plugin
-    match /hang guess (.*)/i,    :method => :guess
+    match /hang (.*)/i,          :method => :guess
     match /hang new (.*) (.*)/i, :method => :new_game
     match /hang status/i,        :method => :status
     def new_game(m, channel, answer)
@@ -32,13 +32,13 @@ module Cinch::Plugins
     end
     def describe
       if @correct_chars.empty? && @incorrect_guesses.empty?
-        "(#{hint}) a new hangman riddle has started."
+        "(#{hint}) a hangman game has started."
       elsif won
-        "(#{hint}) that hangman riddle was solved, awesome!"
+        "(#{hint}) that hangman game was solved!"
       elsif lost
-        "(#{hint}) that hangman riddle was just too difficult, that sucks!"
+        "(#{hint}) that hangman game was too difficult!"
       else
-        "(#{hint}) #{guesses_left} guesses left on the current hangman riddle."
+        "(#{hint}) #{guesses_left} guesses left."
       end
     end
     def won
@@ -51,7 +51,7 @@ module Cinch::Plugins
       @max_guesses - @incorrect_guesses.size
     end
     def hint
-      @answer.chars.map { |char| @correct_chars.include?(char) ? char : "_" }.join(" ")
+      @answer.chars.map { |char| @correct_chars.include?(char) ? char : "_" }.join
     end
 
   end
