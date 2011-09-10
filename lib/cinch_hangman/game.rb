@@ -12,9 +12,9 @@ module CinchHangman
       if @guesses.empty?
         "(#{hint}) hangman started."
       elsif solved
-        "(#{hint}) hangman was solved!"
+        "(#{@answer}) was solved!"
       elsif guesses_left <= 0
-        "(#{hint}) hangman was too difficult!"
+        "(#{@answer}) was too difficult!"
       else
         "(#{hint}) #{guesses_left} guesses left."
       end

@@ -72,17 +72,22 @@ describe CinchHangman::Game do
       end
     end
     describe 'losing' do
-      it 'occurs when all the guesses run out' do
+      before do
         6.times do
+          subject.guess("z")
+        end
+      end
+      it 'occurs when all the guesses run out' do
+        subject.describe.should include 'too difficult!'
+      end
+      it 'is permanent' do
+        2.times do
           subject.guess("z")
         end
         subject.describe.should include 'too difficult!'
       end
-      it 'is permanent' do
-        8.times do
-          subject.guess("z")
-        end
-        subject.describe.should include 'too difficult!'
+      it 'informs players of the answer' do
+        subject.describe.should include 'oh'
       end
     end
   end
