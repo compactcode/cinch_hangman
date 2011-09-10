@@ -16,11 +16,11 @@ module CinchHangman
     end
     def describe
       if @correct_chars.empty? && @incorrect_guesses.empty?
-        "(#{hint}) a hangman game has started."
+        "(#{hint}) hangman started."
       elsif won
-        "(#{hint}) that hangman game was solved!"
+        "(#{hint}) hangman was solved!"
       elsif lost
-        "(#{hint}) that hangman game was too difficult!"
+        "(#{hint}) hangman was too difficult!"
       else
         "(#{hint}) #{guesses_left} guesses left."
       end
