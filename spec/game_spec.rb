@@ -29,13 +29,9 @@ describe CinchHangman::Game do
           subject.guess("x")
           subject.describe.should include '5 guesses'
         end
-        it 'when containing a word not in the answer' do
-          subject.guess("lol")
-          subject.describe.should include '5 guesses'
-        end
-        it 'when containing the correct answer in reverse' do
-          subject.guess("ho")
-          subject.describe.should include '5 guesses'
+        it 'when containing multiple characters not in the answer' do
+          subject.guess("cat")
+          subject.describe.should include '3 guesses'
         end
       end
     end

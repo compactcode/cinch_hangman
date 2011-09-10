@@ -1,21 +1,15 @@
 module CinchHangman
   class Game
     def initialize(answer, max_guesses = 6)
-      @answer            = answer
-      @max_guesses       = max_guesses
-      @correct_chars     = Set.new
-      @incorrect_guesses = []
+      @answer      = answer
+      @max_guesses = max_guesses
+      @guesses     = ""
     end
     def guess(guess)
-      guess.downcase!
-      if @answer.include?(guess)
-        @correct_chars.merge(guess.chars)
-      else
-        @incorrect_guesses << guess
-      end
+      @guesses << guess.downcase
     end
     def describe
-      if @correct_chars.empty? && @incorrect_guesses.empty?
+      if @guesses.empty?
         "(#{hint}) hangman started."
       elsif won
         "(#{hint}) hangman was solved!"
@@ -26,16 +20,16 @@ module CinchHangman
       end
     end
     def won
-      @correct_chars.superset?(Set.new(@answer.chars))
+      Set.new(@guesses.chars).superset?(Set.new(@answer.chars))
     end
     def lost
       guesses_left == 0
     end
     def guesses_left
-      @max_guesses - @incorrect_guesses.size
+      @max_guesses - @guesses.gsub(/[#{@answer}]/, "").size
     end
     def hint
-      @answer.chars.map { |char| @correct_chars.include?(char) ? char : "_" }.join
+      @answer.gsub(/[^ #{@guesses}]/, "_")
     end
   end
 end
