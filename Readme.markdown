@@ -29,13 +29,13 @@ The game will be started in the specified channel.
 
 ```
 bot: (s_____) handman started.
-compactcode: !hang s
+compactcode: !hang guess s
 bot: (s_____) 6 guesses left.
 ```
 
 In order to minimize chatter players may guess multiple letters at a time.
 
 ```
-compactcode: !hang et
+compactcode: !hang guess et
 bot: (se__et) 6 guesses left.
 ```
