@@ -1,12 +1,13 @@
 module CinchHangman
   class Game
+    MASK = "_"
     def initialize(answer, max_guesses = 6)
-      @answer      = answer
+      @answer      = answer.downcase
       @max_guesses = max_guesses
       @guesses     = ""
     end
     def guess(guess)
-      @guesses << guess.downcase
+      @guesses << guess.downcase.gsub(/[^a-z]/, "")
     end
     def describe
       if @guesses.empty?
@@ -20,13 +21,13 @@ module CinchHangman
       end
     end
     def solved
-      Set.new(@guesses.chars).superset?(Set.new(@answer.chars))
+      !hint.include?(MASK)
     end
     def guesses_left
       @max_guesses - @guesses.gsub(/[#{@answer}]/, "").size
     end
     def hint
-      @answer.gsub(/[^ #{@guesses}]/, "_")
+      @answer.gsub(/[^\s#{@guesses}]/, MASK)
     end
   end
 end
