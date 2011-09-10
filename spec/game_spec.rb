@@ -78,6 +78,12 @@ describe CinchHangman::Game do
         end
         subject.describe.should include 'too difficult!'
       end
+      it 'is permanent' do
+        8.times do
+          subject.guess("z")
+        end
+        subject.describe.should include 'too difficult!'
+      end
     end
   end
 end

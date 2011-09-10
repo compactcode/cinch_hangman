@@ -11,19 +11,16 @@ module CinchHangman
     def describe
       if @guesses.empty?
         "(#{hint}) hangman started."
-      elsif won
+      elsif solved
         "(#{hint}) hangman was solved!"
-      elsif lost
+      elsif guesses_left <= 0
         "(#{hint}) hangman was too difficult!"
       else
         "(#{hint}) #{guesses_left} guesses left."
       end
     end
-    def won
+    def solved
       Set.new(@guesses.chars).superset?(Set.new(@answer.chars))
-    end
-    def lost
-      guesses_left == 0
     end
     def guesses_left
       @max_guesses - @guesses.gsub(/[#{@answer}]/, "").size
