@@ -5,9 +5,9 @@ $:.unshift File.join(File.dirname(__FILE__), '..')
 require 'cinch'
 require 'cinch_hangman'
 
-describe Cinch::Plugins::Game do
+describe CinchHangman::Game do
   subject do
-    Cinch::Plugins::Game.new("oh")
+    CinchHangman::Game.new("oh")
   end
   describe 'game' do
     it 'should have a start' do
@@ -15,8 +15,12 @@ describe Cinch::Plugins::Game do
     end
     describe 'guesses' do
       describe 'correct' do 
-        it 'when containing a single character in the answer' do
+        it 'when containing a single character from the answer' do
           subject.guess("h")
+          subject.describe.should include '6 guesses'
+        end
+        it 'when containing a single character from the answer in the wrong case' do
+          subject.guess("H")
           subject.describe.should include '6 guesses'
         end
       end
@@ -66,7 +70,7 @@ describe Cinch::Plugins::Game do
         subject.describe.should include 'solved!'
       end
       it 'should not be automatic for hassox' do
-        subject = Cinch::Plugins::Game.new("hassox")
+        subject = CinchHangman::Game.new("hassox")
         subject.guess("s")
         subject.describe.should_not include 'solved!'
       end
