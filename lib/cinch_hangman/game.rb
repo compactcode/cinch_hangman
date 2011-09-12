@@ -17,7 +17,7 @@ module CinchHangman
       elsif guesses_left <= 0
         "(#{@answer}) was too difficult!"
       else
-        "(#{hint}) #{guesses_left} guesses left."
+        "(#{hint}) #{guesses_left} guesses left. incorrect letters: #{incorrect_guesses}"
       end
     end
     def solved
@@ -29,5 +29,9 @@ module CinchHangman
     def hint
       @answer.gsub(/[^\s#{@guesses}]/, MASK)
     end
+    def incorrect_guesses
+      ((@guesses.split(//) - @answer.split(//).uniq).sort).join
+    end
+    
   end
 end
