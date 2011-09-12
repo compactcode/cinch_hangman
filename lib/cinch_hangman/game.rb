@@ -12,26 +12,25 @@ module CinchHangman
     def describe
       if @guesses.empty?
         "(#{hint}) hangman started."
-      elsif solved
+      elsif solved?
         "(#{@answer}) was solved!"
       elsif guesses_left <= 0
         "(#{@answer}) was too difficult!"
       else
-        "(#{hint}) #{guesses_left} guesses left. incorrect letters: #{incorrect_guesses}"
+        "(#{hint}) #{guesses_left} guesses left, guessed: #{incorrect_guesses.join}"
       end
     end
-    def solved
+    def solved?
       !hint.include?(MASK)
     end
     def guesses_left
-      @max_guesses - @guesses.gsub(/[#{@answer}]/, "").size
+      @max_guesses - incorrect_guesses.size
     end
     def hint
       @answer.gsub(/[^\s#{@guesses}]/, MASK)
     end
     def incorrect_guesses
-      ((@guesses.split(//) - @answer.split(//).uniq).sort).join
+      @guesses.gsub(/[#{@answer}]/, "").split(//).sort
     end
-    
   end
 end

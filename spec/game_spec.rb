@@ -37,17 +37,17 @@ describe CinchHangman::Game do
       it 'when containing a single character not in the answer' do
         subject.guess("x")
         subject.describe.should include '5 guesses'
-        subject.describe.should include 'incorrect letters: x'
       end
       it 'when containing multiple characters not in the answer' do
         subject.guess("cat")
         subject.describe.should include '3 guesses'
-        subject.describe.should include 'incorrect letters: act'
       end
-      it 'when making multiple guesses' do
+    end
+    describe 'strikeouts' do
+      it 'already guessed letters' do
         subject.guess("b")
         subject.guess("a")
-        subject.describe.should include 'incorrect letters: ab'
+        subject.describe.should include 'guessed: ab'
       end
     end
   end
