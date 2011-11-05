@@ -7,7 +7,7 @@ module CinchHangman
       @guesses     = ""
     end
     def guess(guess)
-      @guesses << guess.downcase.gsub(/[^a-z]/, "")
+      @guesses << guess.downcase.gsub(/[^a-z0-9]/, "")
     end
     def describe
       if @guesses.empty?
