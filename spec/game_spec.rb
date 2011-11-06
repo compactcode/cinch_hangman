@@ -14,16 +14,17 @@ describe CinchHangman::Game do
   end
   describe 'guesses' do
     describe 'ignore' do
-      it 'digits' do
-        subject.guess("x3")
-        subject.describe.should include '5 guesses'
-      end
       it 'whitespace' do
         subject.guess("c a t")
         subject.describe.should include '3 guesses'
       end
     end
-    describe 'correct' do 
+    describe 'correct' do
+      it 'when containing a single digit from the answer' do
+        subject = CinchHangman::Game.new("99 luftballons")
+        subject.guess("9")
+        subject.describe.should include '6 guesses'
+      end
       it 'when containing a single character from the answer' do
         subject.guess("h")
         subject.describe.should include '6 guesses'
@@ -34,6 +35,11 @@ describe CinchHangman::Game do
       end
     end
     describe 'incorrect' do
+      it 'when containing a single digit not in the answer' do
+        subject = CinchHangman::Game.new("99 luftballons")
+        subject.guess("6")
+        subject.describe.should include '5 guesses'
+      end
       it 'when containing a single character not in the answer' do
         subject.guess("x")
         subject.describe.should include '5 guesses'
@@ -44,6 +50,11 @@ describe CinchHangman::Game do
       end
     end
     describe 'strikeouts' do
+      it 'already guessed digits' do
+        subject.guess("2")
+        subject.guess("1")
+        subject.describe.should include 'guessed: 12'
+      end
       it 'already guessed letters' do
         subject.guess("b")
         subject.guess("a")
